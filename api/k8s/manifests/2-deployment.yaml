@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fastapi-gateway-api
+  name: fastapi-gateway-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-gateway-api
+  template:
+    metadata:
+      labels:
+        app: fastapi-gateway-api
+    spec:
+      containers:
+      - image: fastapi-gateway-api:latest
+        name: fastapi-gateway-api
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8000
+        env:
+          - name: PORT
+            value: "8000"
+        livenessProbe:
+          httpGet: 
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet: 
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10

@@ -24,6 +24,10 @@ app.include_router(account_router.router)
 app.include_router(invoice_router.router)
 
 
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
 
 @app.get("/")
 async def root():
